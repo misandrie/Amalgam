@@ -53,6 +53,7 @@ class CGlow
 	bool m_bExtra = false;
 
 public:
+	Color_t GetHealthBasedColor(CBaseEntity* pEntity, const Color_t& baseColor);
 	void Initialize();
 	void Unload();
 

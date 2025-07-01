@@ -646,6 +646,7 @@ namespace Vars
 			CVar(Ragdolls, VA_LIST("Ragdolls", "Enemy ragdoll glow"), false, VISUAL);
 			CVar(Buildings, VA_LIST("Buildings", "Enemy building glow"), false, VISUAL);
 			CVar(Projectiles, VA_LIST("Projectiles", "Enemy projectile glow"), false, VISUAL);
+			CVar(HealthBased, VA_LIST("Health based", "Enemy health based glow"), false, VISUAL);
 				
 			CVar(Stencil, VA_LIST("Stencil scale", "Enemy stencil scale"), 1, VISUAL | SLIDER_MIN, 0, 10);
 			CVar(Blur, VA_LIST("Blur scale", "Enemy blur scale"), 0, VISUAL | SLIDER_MIN, 0, 10);
@@ -656,7 +657,8 @@ namespace Vars
 			CVar(Ragdolls, VA_LIST("Ragdolls", "Team ragdoll glow"), false, VISUAL);
 			CVar(Buildings, VA_LIST("Buildings", "Team building glow"), false, VISUAL);
 			CVar(Projectiles, VA_LIST("Projectiles", "Team projectile glow"), false, VISUAL);
-				
+			CVar(HealthBased, VA_LIST("Health based", "Team health based glow"), false, VISUAL);
+
 			CVar(Stencil, VA_LIST("Stencil scale", "Team stencil scale"), 1, VISUAL | SLIDER_MIN, 0, 10);
 			CVar(Blur, VA_LIST("Blur scale", "Team blur scale"), 0, VISUAL | SLIDER_MIN, 0, 10);
 		SUBNAMESPACE_END(Team);

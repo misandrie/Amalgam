@@ -5,6 +5,38 @@
 #include "../../Backtrack/Backtrack.h"
 #include "../../Players/PlayerUtils.h"
 
+Color_t CGlow::GetHealthBasedColor(CBaseEntity* pEntity, const Color_t& baseColor)
+{
+	if (!pEntity)
+		return baseColor;
+
+	float flHealth = 0.f, flMaxHealth = 1.f;
+
+	if (pEntity->IsPlayer())
+	{
+		auto pPlayer = pEntity->As<CTFPlayer>();
+		flHealth = pPlayer->m_iHealth();
+		flMaxHealth = pPlayer->GetMaxHealth();
+	}
+	else if (pEntity->GetClassID() == ETFClassID::CObjectSentrygun ||
+		pEntity->GetClassID() == ETFClassID::CObjectDispenser ||
+		pEntity->GetClassID() == ETFClassID::CObjectTeleporter)
+	{
+		auto pBuilding = pEntity->As<CBaseObject>();
+		flHealth = pBuilding->m_iHealth();
+		flMaxHealth = pBuilding->m_iMaxHealth();
+	}
+	else
+		return baseColor;
+
+	float flHealthPercent = std::clamp(flHealth / flMaxHealth, 0.f, 1.f);
+
+	Color_t redColor = { 255, 0, 0, baseColor.a };
+	Color_t greenColor = { 0, 255, 0, baseColor.a };
+
+	return redColor.Lerp(greenColor, flHealthPercent);
+}
+
 static inline bool GetPlayerGlow(CBaseEntity* pPlayer, CBaseEntity* pEntity, CTFPlayer* pLocal, Glow_t* pGlow, Color_t* pColor, bool bEnemy, bool bTeam)
 {
 	if (Vars::Glow::Player::Local.Value && pPlayer == pLocal
@@ -18,15 +50,24 @@ static inline bool GetPlayerGlow(CBaseEntity* pPlayer, CBaseEntity* pEntity, CTF
 		return true;
 	}
 
-	*pColor = H::Color.GetEntityDrawColor(pLocal, pPlayer, Vars::Colors::Relative.Value, pEntity);
+	Color_t baseColor = H::Color.GetEntityDrawColor(pLocal, pPlayer, Vars::Colors::Relative.Value, pEntity);
+
 	if (pEntity->m_iTeamNum() != pLocal->m_iTeamNum())
 	{
 		*pGlow = Glow_t(Vars::Glow::Enemy::Stencil.Value, Vars::Glow::Enemy::Blur.Value);
+		if (Vars::Glow::Enemy::HealthBased.Value)
+			*pColor = F::Glow.GetHealthBasedColor(pEntity, baseColor);
+		else
+			*pColor = baseColor;
 		return bEnemy;
 	}
 	else
 	{
 		*pGlow = Glow_t(Vars::Glow::Team::Stencil.Value, Vars::Glow::Team::Blur.Value);
+		if (Vars::Glow::Team::HealthBased.Value)
+			*pColor = F::Glow.GetHealthBasedColor(pEntity, baseColor);
+		else
+			*pColor = baseColor;
 		return bTeam;
 	}
 }

@@ -1020,6 +1020,7 @@ void CMenu::MenuVisuals(int iTab)
 					FToggle(Vars::Glow::Enemy::Ragdolls, FToggleEnum::Right);
 					FToggle(Vars::Glow::Enemy::Buildings, FToggleEnum::Left);
 					FToggle(Vars::Glow::Enemy::Projectiles, FToggleEnum::Right);
+					FToggle(Vars::Glow::Enemy::HealthBased, FToggleEnum::Left);
 
 					PushTransparent(!FGet(Vars::Glow::Enemy::Stencil));
 					{
@@ -1038,6 +1039,7 @@ void CMenu::MenuVisuals(int iTab)
 					FToggle(Vars::Glow::Team::Ragdolls, FToggleEnum::Right);
 					FToggle(Vars::Glow::Team::Buildings, FToggleEnum::Left);
 					FToggle(Vars::Glow::Team::Projectiles, FToggleEnum::Right);
+					FToggle(Vars::Glow::Team::HealthBased, FToggleEnum::Left);
 
 					PushTransparent(!FGet(Vars::Glow::Team::Stencil));
 					{
